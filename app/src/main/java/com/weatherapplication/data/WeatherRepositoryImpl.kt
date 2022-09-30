@@ -1,6 +1,10 @@
 package com.weatherapplication.data
 
-class WeatherRepositoryImpl(private val weatherApiService: WeatherApiService) : WeatherRepository {
+import com.weatherapplication.data.model.Weather
+import javax.inject.Inject
+
+class WeatherRepositoryImpl @Inject constructor(private val weatherApiService: WeatherApiService) :
+    WeatherRepository {
     override suspend fun fetchCurrentCityWeather(params: Map<String, String>): Weather {
         return weatherApiService.fetchCityCurrentWeather(params)
     }

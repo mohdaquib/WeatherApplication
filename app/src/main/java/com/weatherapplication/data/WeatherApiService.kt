@@ -1,5 +1,6 @@
 package com.weatherapplication.data
 
+import com.weatherapplication.data.model.Weather
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
