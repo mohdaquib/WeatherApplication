@@ -9,13 +9,14 @@ android {
 
     defaultConfig {
         applicationId "com.weatherapplication"
-        minSdk 16
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/\""
+        buildConfigField "String", "API_KEY", "\"2ce2e7a12180f38e53c67d968825347a\""
     }
 
     buildTypes {
@@ -30,6 +31,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -56,6 +61,13 @@ dependencies {
     // Dependency injection
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //Play services location
+    implementation "com.google.android.gms:play-services-location:$play_services_location"
+
+    //Coroutines-Core
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_core"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlinx_coroutines_core"
 
     // Testing
     testImplementation "junit:junit:$junit_version"

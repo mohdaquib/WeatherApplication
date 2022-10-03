@@ -19,6 +19,8 @@ buildscript {
     ext.okhttp_logging_interceptor = '4.9.3'
     ext.mockk_version = '1.12.8'
     ext.junit_version = '4.13.2'
+    ext.play_services_location = '20.0.0'
+    ext.kotlinx_coroutines_core = '1.5.0'
 
     dependencies {
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.42'

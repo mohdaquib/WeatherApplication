@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 object NetworkModule {
-    @Singleton
+    @AppScoped
     @Provides
     fun provideRetrofit(httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
@@ -24,7 +24,7 @@ object NetworkModule {
             .build()
     }
 
-    @Singleton
+    @AppScoped
     @Provides
     fun provideHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
@@ -35,11 +35,13 @@ object NetworkModule {
         return httpClient.build()
     }
 
+    @AppScoped
     @Provides
     fun provideRetrofitApi(retrofit: Retrofit): WeatherApiService {
         return retrofit.create(WeatherApiService::class.java)
     }
 
+    @AppScoped
     @Provides
     fun provideWeatherRepository(apiService: WeatherApiService): WeatherRepository {
         return WeatherRepositoryImpl(apiService)

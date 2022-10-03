@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
 interface WeatherApiService {
-    @GET("current")
+    @GET("weather")
     suspend fun fetchCityCurrentWeather(@QueryMap params: Map<String, String>): Weather
 }
