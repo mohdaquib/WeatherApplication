@@ -1,4 +1,4 @@
-package com.weatherapplication.data.model
+package com.weatherapplication.data.model.forecast
 
 data class Coord(
     val lat: Double,

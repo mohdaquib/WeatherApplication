@@ -1,4 +1,4 @@
-package com.weatherapplication.data.model
+package com.weatherapplication.data.model.weather
 
 data class Main(
     val feels_like: Double,

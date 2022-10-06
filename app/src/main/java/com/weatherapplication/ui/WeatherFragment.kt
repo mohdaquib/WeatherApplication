@@ -2,7 +2,6 @@ package com.weatherapplication.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -38,13 +37,25 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         weatherViewModel.weatherViewState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is WeatherViewState.Loading -> {
-
+                    _binding?.loadingBar?.visibility = View.VISIBLE
                 }
                 is WeatherViewState.Success -> {
-                    Log.d("Weather", state.weather.toString())
+                    _binding?.loadingBar?.visibility = View.GONE
+                    _binding?.temperature?.text = "${state.weather?.main?.temp.toString()}\u00B0"
+                    if (!state.city.isNullOrEmpty()) {
+                        _binding?.city?.text = state.city
+                    }
+                    state.forecast?.let {
+                        ForecastBottomDialogFragment().apply {
+                            val bundle = Bundle()
+                            bundle.putParcelableArrayList("forecast_list", ArrayList(it.list))
+                            arguments = bundle
+                            isCancelable = false
+                        }.show(childFragmentManager, "forecastSheetFragment")
+                    }
                 }
                 is WeatherViewState.Error -> {
-
+                    _binding?.loadingBar?.visibility = View.GONE
                 }
             }
         }
@@ -60,19 +71,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                 permissions.getOrDefault(
                     android.Manifest.permission.ACCESS_FINE_LOCATION,
                     false
-                ) -> {
-                    locationViewModel.getCurrentLocation()
-                    locationViewModel.locationLiveData.observe(viewLifecycleOwner) { location ->
-                        if (location != null) {
-                            weatherViewModel.fetchWeather(
-                                location.latitude,
-                                location.longitude,
-                                BuildConfig.API_KEY
-                            )
-                        }
-                    }
-                }
-                permissions.getOrDefault(
+                ) || permissions.getOrDefault(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION,
                     false
                 ) -> {
@@ -98,5 +97,10 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
