@@ -1,6 +1,5 @@
 package com.weatherapplication.ui
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,7 +8,6 @@ import com.weatherapplication.data.model.forecast.ForecastItem
 class ForecastAdapter : ListAdapter<ForecastItem, ForecastViewHolder>(DIFF_CALLBACK){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
-        Log.d("ViewHolder", ForecastViewHolder.create(parent).toString())
         return ForecastViewHolder.create(parent)
     }
 

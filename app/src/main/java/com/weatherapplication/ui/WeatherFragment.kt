@@ -40,6 +40,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                     _binding?.loadingBar?.visibility = View.VISIBLE
                 }
                 is WeatherViewState.Success -> {
+                    _binding?.errorLayout?.visibility = View.GONE
                     _binding?.loadingBar?.visibility = View.GONE
                     _binding?.temperature?.text = "${state.weather?.main?.temp.toString()}\u00B0"
                     if (!state.city.isNullOrEmpty()) {
@@ -56,6 +57,19 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                 }
                 is WeatherViewState.Error -> {
                     _binding?.loadingBar?.visibility = View.GONE
+                    _binding?.errorLayout?.visibility = View.VISIBLE
+                    _binding?.retryBtn?.setOnClickListener {
+                        locationViewModel.getCurrentLocation()
+                        locationViewModel.locationLiveData.observe(viewLifecycleOwner) { location ->
+                            if (location != null) {
+                                weatherViewModel.fetchWeather(
+                                    location.latitude,
+                                    location.longitude,
+                                    BuildConfig.API_KEY
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
